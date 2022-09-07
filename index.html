@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue2 introuction</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="nav-bar"></div>
+<div id="app">
+  <div class="cart">Cart ({{ cart.length }})</div>
+  <product :premium="premium"
+  @add-to-cart="updateCart"
+  @remove-from-cart="removeFromCart"></product>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
+<script src="main.js"></script>
+</body>
+</html>
