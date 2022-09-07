@@ -8,17 +8,13 @@ Vue.component('product', {
           </div>
         <div class="product-info">
       <h1>{{title}}</h1>
-      <p v-if="inStock">In Stock</p>
-      <p v-else :class="{'outOfStock': !inStock}">Out of Stock</p>
-      <p>{{sale}}</p>
-      <p>Shipping: {{shipping}}</p>
-    <product-details :details="details"></product-details>
-        <div v-for="(variant, index) in variants"
-             :key="variant.variantId"
-            class="color-box"
-             :style="{'backgroundColor': variant.variantColor}"
-             @mouseover="updateImage(index)">
-        </div>
+      <details-tab :shipping="shipping" 
+      :inStock="inStock"
+      :sale="sale"
+      :details="details"
+      :variants="variants">      
+</details-tab>
+      
       <button @click="addToCart"
       :disabled="!inStock"
       :class="{disabledButton: !inStock}">Add to cart</button>
@@ -109,6 +105,61 @@ Vue.component('product-details', {
         details: {
             type: 'Array',
             required: true
+        }
+    }
+})
+
+Vue.component('details-tab', {
+    props:{
+        shipping:{
+            type: String,
+            required:true
+        },
+        inStock: {
+            type: Boolean,
+            default: true
+        },
+        sale: {
+            type: String,
+            required: true
+        },
+        details: {
+            type: Array,
+            required: true
+        },
+        variants: {
+            type: Array,
+            required: true
+        }
+    },
+    template: `
+    <div>
+    <span 
+    class="tab"
+    :class="{activeTab: selectedTab === tab}"
+    @click="selectedTab = tab"
+    v-for="(tab, index) in tabs"
+    >{{tab}}</span>
+      <p v-show="selectedTab === tabs[0]">Shipping: {{shipping}}</p>
+      <div v-show="selectedTab === tabs[1]">
+      <p v-if="inStock">In Stock</p>
+      <p v-else :class="{'outOfStock': !inStock}">Out of Stock</p>
+      <p>{{sale}}</p>
+    <product-details :details="details"></product-details>
+        <div v-for="(variant, index) in variants"
+             :key="variant.variantId"
+            class="color-box"
+             :style="{'backgroundColor': variant.variantColor}"
+             @mouseover="updateImage(index)">
+        </div>
+</div>
+    
+</div>
+    `,
+    data(){
+        return{
+            tabs: ['Shipping', 'Details'],
+            selectedTab: 'Shipping'
         }
     }
 })
