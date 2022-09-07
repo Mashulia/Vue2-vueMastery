@@ -134,17 +134,19 @@ Vue.component('details-tab', {
     },
     template: `
     <div>
+      <p v-if="inStock">In Stock</p>
+      <p v-else :class="{'outOfStock': !inStock}">Out of Stock</p>
     <span 
     class="tab"
     :class="{activeTab: selectedTab === tab}"
     @click="selectedTab = tab"
     v-for="(tab, index) in tabs"
     >{{tab}}</span>
-      <p v-show="selectedTab === tabs[0]">Shipping: {{shipping}}</p>
+    <div v-show="selectedTab === tabs[0]">
+    <p>Shipping: {{shipping}}</p>
+     <p>{{sale}}</p>
+  </div>
       <div v-show="selectedTab === tabs[1]">
-      <p v-if="inStock">In Stock</p>
-      <p v-else :class="{'outOfStock': !inStock}">Out of Stock</p>
-      <p>{{sale}}</p>
     <product-details :details="details"></product-details>
         <div v-for="(variant, index) in variants"
              :key="variant.variantId"
